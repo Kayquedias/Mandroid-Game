@@ -1,80 +1,66 @@
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
+const windowX = window.innerWidth;
+const windowY = window.innerHeight;
+canvas.width = windowX;
+canvas.height = windowY;
 
-let px = 0;
-let py = 0;
+let shotX = 5;
+let shotY = 5;
 
 function draw() {
-    player()
+    drawCircle()
 }
 
-function player() {
-    ctx.beginPath()
-    ctx.arc(centerX, centerY, 30, 0, Math.PI * 2)
-    ctx.lineWidth = '10'
-    ctx.fillStyle = '#000000'
+const drawCircle = (cx = windowX / 2, cy = windowY / 2) => {
+    ctx.strokeStyle = '#ff0a00'; // color used to draw at the paint
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 50, 30, 0, Math.PI * 2);
+    ctx.closePath()
     ctx.stroke()
 }
 
-// const projectile = () => {
-//     ctx.beginPath()
-//     ctx.arc(px, py, 8, 0, Math.PI * 2)
-//     ctx.fillStyle = '#ff0000'
-//     ctx.closePath()
-//     ctx.fill()
-// }
+const shoot = (event) => {
+    x = event.offsetX
+    y = event.offsetY
+    d = Math.sqrt(Math.pow(Math.abs(windowX / 2 - x), 2) + Math.pow(Math.abs(windowY / 2 - y), 2));
 
-const projectiles = [];
-
-// const projectile = {
-//     x: centerX + px,
-//     y: centerY + py,
-//     rad: 6
-// }
-
-function animate() {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-
-    projectiles.forEach(project => {
-        drawProjectile(px, py, 6)
-        update()
-    });
-        
-    player()
-    requestAnimationFrame(animate)
-}
-    
-function update(velx, vely) {
-    px = px + 1;
-    py = py + 1; 
+    bullet = {
+        x: windowX / 2,
+        y: windowY / 2,
+        xChange: (x - windowX / 2) / (d / shotX),
+        yChange: (y - windowY / 2) / (d / shotY),
+    };
+    bullets.push(bullet);
 }
 
-function drawProjectile(x, y, rad) {
-    ctx.beginPath()
-    ctx.arc(x, y, rad, 0, Math.PI * 2)
-    ctx.fillStyle = '#00ff00'
-    ctx.fill();
-}
+const bullets = [];
 
-draw();
+function update() {
+    ctx.clearRect(0, 0, windowX, windowY)
+    for (let i = 0; i < bullets.length; i++) {
+        bullets[i].x += bullets[i].xChange;
+        bullets[i].y += bullets[i].yChange;
 
-
-
-document.addEventListener('click', (e) => { 
-    const angle = Math.atan2(e.clientY - canvas.height / 2, e.clientX - canvas.width / 2) 
-    const velocity = {
-        x: Math.cos(angle),
-        y: Math.sin(angle)
+        ctx.fillStyle = '#000';
+        ctx.beginPath();
+        ctx.arc(bullets[i].x, bullets[i].y, 5, 0, Math.PI * 2)
+        ctx.closePath()
+        ctx.fill()
     }
-    projectiles.push(
-        velocity
-    )
-    animate()
-})
+}
 
-// = 0 
+canvas.addEventListener('click', event => {
+    animate();
+
+    function animate() {
+        ctx.clearRect(0, 0, windowX, windowY)
+        draw()
+        shoot(event)
+        update()
+
+        requestAnimationFrame(animate);
+    }
+})
