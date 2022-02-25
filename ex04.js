@@ -25,14 +25,14 @@ const drawCircle = (cx = windowX / 2, cy = windowY / 2) => {
 const shoot = (event) => {
     x = event.offsetX
     y = event.offsetY
-    d = Math.sqrt(Math.pow(Math.abs(windowX / 2 - x), 2) + Math.pow(Math.abs(windowY / 2 - y), 2));
-
+    d = Math.sqrt(Math.pow(Math.abs(windowX / 2 - x),2) + Math.pow(Math.abs(windowY / 2 - y),2));
+    
     bullet = {
-        x: windowX / 2,
-        y: windowY / 2,
-        xChange: (x - windowX / 2) / (d / shotX),
-        yChange: (y - windowY / 2) / (d / shotY),
-    };
+        x : windowX / 2,
+        y : windowY / 2,
+        xChange : (x - windowX / 2)/(d / shotX),
+        yChange : (y - windowY / 2)/(d / shotY),
+    }; 
     bullets.push(bullet);
 }
 
