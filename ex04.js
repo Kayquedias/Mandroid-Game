@@ -35,19 +35,31 @@ const shoot = (event) => {
     bullets.push(bullet);
 }
 
+function drawBullet(x, y) {
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
+}
+
 const bullets = [];
 
-function update() {
-    bullets.forEach((element, i) => {
-        bullets[i].x += bullets[i].xChange;
-        bullets[i].y += bullets[i].yChange;
+function update(i) {
+    // bullets.forEach((element, i) => {
+    //     drawBullet(element.x, element.y)
+    //     element.x += element.xChange;
+    //     element.y += element.yChange;
 
-        ctx.fillStyle = '#000';
-        ctx.beginPath();
-        ctx.arc(bullets[i].x, bullets[i].y, 3, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.fill();
-    });
+        // ctx.fillStyle = '#000';
+        // ctx.beginPath();
+        // ctx.arc(element.x, element.y, 3, 0, Math.PI * 2);
+        // ctx.closePath();
+        // ctx.fill();
+    // });
+    bullets[i].x += bullets[i].xChange;
+    bullets[i].y += bullets[i].yChange;
+    
     // for (let i = 0; i < bullets.length; i++) {
     //     bullets[i].x += bullets[i].xChange;
     //     bullets[i].y += bullets[i].yChange;
@@ -61,13 +73,23 @@ function update() {
 
 function animate() {
     ctx.clearRect(0, 0, windowX, windowY)
-    update()
+
+    bullets.forEach((element, i) => {
+        drawBullet(element.x, element.y)
+        update(i)
+    });
     draw()
 
     requestAnimationFrame(animate);
 }
 
+const click = () => {
+    setInterval(() => console.table(bullets.forEach((e, i) => console.log(i))), 5000)
+}
+
 canvas.addEventListener('click', event => {
     shoot(event)
     animate();   
+
+    click()
 })
