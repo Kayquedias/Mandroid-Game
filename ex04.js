@@ -56,6 +56,7 @@ canvas.addEventListener('click', event => {
     animate();
 
     function animate() {
+        ctx.clearRect(0, 0, windowX, windowY)
         draw()
         shoot(event)
         update()
