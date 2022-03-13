@@ -11,11 +11,20 @@
             margin: 0;
             overflow: hidden;
         }
+
+        #canvas2 {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 
 <body onload="draw()">
-    <canvas id="canvas" style="border: 2px solid #000;">
+    <canvas id="canvas1" style="border: 2px solid #000;">
+        <h1 style="text-align: center;">Seu browser não possui suporte ao canvas /;</h1>
+    </canvas>
+    <canvas id="canvas2">
         <h1 style="text-align: center;">Seu browser não possui suporte ao canvas /;</h1>
     </canvas>
     <script src="index.js"></script>
